@@ -47,8 +47,7 @@ export class Subscription {
   noOfUsers: number
 
   @Prop()
-  @IsEnum(SubscriptionType)
-  @Field({ defaultValue: SubscriptionType.Individual })
+  @Field(() => SubscriptionType, { defaultValue: SubscriptionType.Individual })
   type: SubscriptionType
 
   @Prop()

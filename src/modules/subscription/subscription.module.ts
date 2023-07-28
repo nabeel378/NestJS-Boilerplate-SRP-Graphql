@@ -8,14 +8,10 @@ import { SubscriptionRepository } from './subscription.repository'
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Subscription.name, schema: SubscriptionsSchema },
-    ]),
+      { name: Subscription.name, schema: SubscriptionsSchema }
+    ])
   ],
 
-  providers: [
-    SubscriptionResolver,
-    SubscriptionRepository,
-    SubscriptionService,
-  ],
+  providers: [SubscriptionResolver, SubscriptionRepository, SubscriptionService]
 })
 export class SubscriptionModule {}

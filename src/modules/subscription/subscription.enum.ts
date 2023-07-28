@@ -1,9 +1,10 @@
+import { registerEnumType } from '@nestjs/graphql'
+
 export enum SubscriptionType {
-  Individual = 'individual',
-  business = 'business',
+  Individual = 'Individual',
+  Business = 'Business'
 }
 
-export enum PlanType {
-  Owner = 'owner',
-  Reseller = 're_seller',
-}
+registerEnumType(SubscriptionType, {
+  name: 'SubscriptionType'
+})

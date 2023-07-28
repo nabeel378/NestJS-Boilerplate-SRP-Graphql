@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, ValidationPipe } from '@nestjs/common'
 import { SubscriptionResolver } from './modules/subscription/subscription.resolver'
 import { SubscriptionService } from './modules/subscription/subscription.service'
 import { GraphQLModule } from '@nestjs/graphql'
@@ -7,11 +7,13 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 import { SubscriptionModule } from './modules/subscription/subscription.module'
+import { PlanModule } from './modules/plan/plan.module'
+import { APP_PIPE } from '@nestjs/core'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `src/core/enviroments/${process.env.NODE_ENV}.env`,
+      envFilePath: `src/core/environments/${process.env.NODE_ENV}.env`,
     }),
     MongooseModule.forRoot(
       `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}`,
@@ -25,8 +27,14 @@ import { SubscriptionModule } from './modules/subscription/subscription.module'
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     SubscriptionModule,
+    PlanModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
+  ],
 })
 export class AppModule {}
