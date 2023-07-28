@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { Status } from 'src/common/enum/common.enum'
 
 @InputType()
 export class FindSubscriptionDTO {
@@ -11,6 +12,6 @@ export class FindSubscriptionDTO {
   @Field({ nullable: true })
   type: string
 
-  @Field({ nullable: true })
-  status: string
+  @Field(() => Status, { nullable: true })
+  status?: Status
 }

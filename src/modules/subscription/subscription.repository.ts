@@ -3,12 +3,13 @@ import { Subscription, SubscriptionDocument } from './subscription.schema'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { FindSubscriptionDTO } from './dto/find-subscription.dto'
+import { Plan } from '../plan/plan.schema'
 
 @Injectable()
 export class SubscriptionRepository {
   constructor(
     @InjectModel(Subscription.name)
-    private subscriptionModel: Model<SubscriptionDocument>,
+    private subscriptionModel: Model<SubscriptionDocument>
   ) {}
 
   async create(subscription: Subscription) {
@@ -18,6 +19,9 @@ export class SubscriptionRepository {
   }
 
   findAll(findSubscriptionDTO: FindSubscriptionDTO) {
-    return this.subscriptionModel.find(findSubscriptionDTO).exec()
+    return this.subscriptionModel
+      .find(findSubscriptionDTO)
+      .populate('plan')
+      .exec()
   }
 }

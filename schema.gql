@@ -15,27 +15,39 @@ input CreatePlanInput {
   yearlyDiscount: Float
 }
 
+input CreateSubscriptionInput {
+  name: String
+  noOfDevices: Float!
+  noOfUsers: Float
+  orgXId: String!
+  planId: String!
+  status: Status! = Active
+  type: SubscriptionType! = Individual
+  userXId: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
 input FindPlanInput {
-  orgXId: String!
+  _id: String
+  orgXId: String
   status: Status
   type: PlanType
 }
 
 input FindSubscriptionDTO {
   orgXId: String
-  status: String
+  status: Status
   type: String
   userXid: String
 }
 
 type Mutation {
   createPlan(createPlanInput: CreatePlanInput!): Plan!
-  createSubscription(input: SubscriptionInput!): Subscription!
+  createSubscription(input: CreateSubscriptionInput!): Subscription!
 }
 
 type Plan {
@@ -89,9 +101,10 @@ type Subscription {
   noOfDevices: Float
   noOfUsers: Float
   orgXId: String
+  plan: Plan
   startDate: DateTime
   status: String
-  type: String!
+  type: SubscriptionType!
   userXId: String
 }
 
@@ -101,8 +114,14 @@ input SubscriptionInput {
   noOfDevices: Float
   noOfUsers: Float
   orgXId: String
+  plan: PlanInput
   startDate: DateTime
-  status: String = "Active"
-  type: String! = "Individual"
+  status: String
+  type: SubscriptionType! = Individual
   userXId: String
+}
+
+enum SubscriptionType {
+  Business
+  Individual
 }

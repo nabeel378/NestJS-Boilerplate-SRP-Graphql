@@ -4,7 +4,10 @@ import { Status } from 'src/common/enum/common.enum'
 
 @InputType()
 export class FindPlanInput {
-  @Field()
+  @Field({ nullable: true })
+  _id?: string
+
+  @Field({ nullable: true })
   orgXId?: string
 
   @Field(() => PlanType, { nullable: true })
