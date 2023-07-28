@@ -2,11 +2,46 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input FindSubscriptionDTO {
+  orgXId: String
+  status: String
+  type: String
+  userXid: String
+}
+
+type Mutation {
+  createSubscription(input: SubscriptionInput!): Subscription!
+}
+
 type Query {
-  getUsers: Subscription!
+  subscriptions(input: FindSubscriptionDTO!): [Subscription!]!
 }
 
 type Subscription {
-  id: String!
-  name: String!
+  endDate: DateTime
+  name: String
+  noOfDevices: Float
+  noOfUsers: Float
+  orgXId: String
+  startDate: DateTime
+  status: String
+  type: String!
+  userXId: String
+}
+
+input SubscriptionInput {
+  endDate: DateTime
+  name: String
+  noOfDevices: Float
+  noOfUsers: Float
+  orgXId: String
+  startDate: DateTime
+  status: String = "active"
+  type: String! = "individual"
+  userXId: String
 }

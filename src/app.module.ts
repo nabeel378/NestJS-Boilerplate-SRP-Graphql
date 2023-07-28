@@ -6,6 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default' //was 'apollo-server-core'
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
+import { SubscriptionModule } from './modules/subscription/subscription.module'
 
 @Module({
   imports: [
@@ -23,8 +24,9 @@ import { MongooseModule } from '@nestjs/mongoose'
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
+    SubscriptionModule,
   ],
   controllers: [],
-  providers: [SubscriptionResolver, SubscriptionService],
+  providers: [],
 })
 export class AppModule {}
