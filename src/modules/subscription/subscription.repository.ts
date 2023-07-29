@@ -3,6 +3,7 @@ import { Subscription, SubscriptionDocument } from './subscription.schema'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { FindSubscriptionDTO } from './dto/find-subscription.dto'
+import { Moment } from 'moment'
 
 @Injectable()
 export class SubscriptionRepository {
@@ -21,6 +22,24 @@ export class SubscriptionRepository {
     return this.subscriptionModel
       .find(findSubscriptionDTO)
       .populate('plan')
+      .exec()
+  }
+
+  getActiveSubscription({
+    userXId,
+    orgXId,
+    date
+  }: {
+    userXId: string
+    orgXId: string
+    date: Moment
+  }) {
+    return this.subscriptionModel
+      .find({
+        userXId,
+        orgXId,
+        endDate: { $lte: date }
+      })
       .exec()
   }
 }

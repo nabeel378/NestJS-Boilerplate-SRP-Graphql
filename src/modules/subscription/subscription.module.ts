@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Logger, LoggerService, Module } from '@nestjs/common'
 import { SubscriptionResolver } from './subscription.resolver'
 import { SubscriptionService } from './subscription.service'
 import { MongooseModule } from '@nestjs/mongoose'
@@ -7,6 +7,8 @@ import { SubscriptionRepository } from './subscription.repository'
 import { PlanService } from '../plan/plan.service'
 import { PlanRepository } from '../plan/plan.repository'
 import { Plan, PlanSchema } from '../plan/plan.schema'
+import { DateHelper } from '../helper/date.service'
+import { CustomLoggerService } from '../helper/custom-logger.service'
 
 @Module({
   imports: [
@@ -21,7 +23,9 @@ import { Plan, PlanSchema } from '../plan/plan.schema'
     PlanService,
     PlanRepository,
     SubscriptionRepository,
-    SubscriptionService
+    SubscriptionService,
+    DateHelper,
+    CustomLoggerService
   ]
 })
 export class SubscriptionModule {}
