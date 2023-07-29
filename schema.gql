@@ -97,6 +97,7 @@ enum Status {
 
 type Subscription {
   endDate: DateTime
+  isAddon: Boolean!
   name: String
   noOfDevices: Float
   noOfUsers: Float
@@ -104,12 +105,15 @@ type Subscription {
   plan: Plan
   startDate: DateTime
   status: String
+  subscription: Subscription
   type: SubscriptionType!
   userXId: String
+  vehicleXId: [String!]
 }
 
 input SubscriptionInput {
   endDate: DateTime
+  isAddon: Boolean! = false
   name: String
   noOfDevices: Float
   noOfUsers: Float
@@ -117,8 +121,10 @@ input SubscriptionInput {
   plan: PlanInput
   startDate: DateTime
   status: String
+  subscription: SubscriptionInput
   type: SubscriptionType! = Individual
   userXId: String
+  vehicleXId: [String!]
 }
 
 enum SubscriptionType {

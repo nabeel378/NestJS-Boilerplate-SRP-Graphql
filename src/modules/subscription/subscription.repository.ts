@@ -3,7 +3,6 @@ import { Subscription, SubscriptionDocument } from './subscription.schema'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { FindSubscriptionDTO } from './dto/find-subscription.dto'
-import { Plan } from '../plan/plan.schema'
 
 @Injectable()
 export class SubscriptionRepository {

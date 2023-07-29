@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common'
 import { HttpExceptionFilter } from './common/utils/http-exception.filter'
 
 async function bootstrap() {
-  const PORT = 3000
+  const PORT = process.env.PORT ?? 3000
   const app = await NestFactory.create(AppModule)
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
   app.useGlobalFilters(new HttpExceptionFilter())
@@ -16,16 +16,17 @@ async function bootstrap() {
   ░▒█▀▀▀█░▄▀▀▄░█▀▀▄░█▀▀▄░█░▄
   ░░▀▀▀▄▄░█▄▄█░█▄▄█░█▄▄▀░█▀▄
   ░▒█▄▄▄█░█░░░░▀░░▀░▀░▀▀░▀░▀
- `
+  `
+  /* eslint-disable no-console, no-control-regex*/
   console.log(
     `\n\n\n\n\n\n${chalk.greenBright.bold(LOGO)}
   \n   ${chalk.red.bold('❤️')}  ${chalk.yellow.bold(
-      'Spark',
+      'Spark'
     )} 🖥️ 🚀 Server 🏁 is 🆙 on 🚪 port ${PORT} 🔌  in 🚧 ${
       process.env.NODE_ENV
     } 🏭\n `,
     chalk.blue.bold.underline(`localhost:${PORT}/`),
-    '\n',
+    '\n'
   )
 }
 bootstrap()

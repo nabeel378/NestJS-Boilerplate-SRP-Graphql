@@ -7,8 +7,8 @@ import { Plan, PlanSchema } from './plan.schema'
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Plan.name, schema: PlanSchema }]),
+    MongooseModule.forFeature([{ name: Plan.name, schema: PlanSchema }])
   ],
-  providers: [PlanService, PlanResolver, PlanRepository],
+  providers: [PlanService, PlanResolver, PlanRepository]
 })
 export class PlanModule {}

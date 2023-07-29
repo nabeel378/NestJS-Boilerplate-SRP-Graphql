@@ -1,4 +1,4 @@
-import { InputType, Int, Field, registerEnumType } from '@nestjs/graphql'
+import { InputType, Field } from '@nestjs/graphql'
 import { PlanType } from '../plan.enum'
 import { Status } from 'src/common/enum/common.enum'
 import { IsEnum, IsNumber, Min } from 'class-validator'

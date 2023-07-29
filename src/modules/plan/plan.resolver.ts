@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { PlanService } from './plan.service'
 import { CreatePlanInput } from './dto/create-plan.input'
 import { Plan } from './plan.schema'

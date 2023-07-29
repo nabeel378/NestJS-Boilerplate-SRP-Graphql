@@ -1,9 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import mongoose, { Date, Document, ObjectId, Types } from 'mongoose'
+import mongoose, { Date, Document, ObjectId } from 'mongoose'
 import { Transform } from 'class-transformer'
 import { Field, InputType, ObjectType } from '@nestjs/graphql'
 import { SubscriptionType } from './subscription.enum'
-import { IsEnum } from 'class-validator'
 import { Status } from 'src/common/enum/common.enum'
 import { Plan } from '../plan/plan.schema'
 
@@ -20,9 +19,17 @@ export class Subscription {
   @Field({ nullable: true })
   name: string
 
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Subscription.name })
+  @Field({ nullable: true })
+  subscription: Subscription
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Plan.name })
   @Field({ nullable: true })
   plan: Plan
+
+  @Prop([{ type: mongoose.Schema.Types.String, default: [] }])
+  @Field(() => [String], { nullable: true })
+  vehicleXId: string[]
 
   @Prop()
   @Field({ nullable: true })
@@ -32,7 +39,7 @@ export class Subscription {
   @Field({ nullable: true })
   userXId: string
 
-  @Prop({ type: Date, default: Date.now }) // Define the Date field
+  @Prop({ type: Date, default: Date.now })
   @Field(() => Date, { nullable: true })
   startDate: Date
 
@@ -51,6 +58,10 @@ export class Subscription {
   @Prop()
   @Field(() => SubscriptionType, { defaultValue: SubscriptionType.Individual })
   type: SubscriptionType
+
+  @Prop({ default: false })
+  @Field({ defaultValue: false })
+  isAddon: boolean
 
   @Prop()
   @Field({ nullable: true })

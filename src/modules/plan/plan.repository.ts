@@ -8,7 +8,7 @@ import { CreatePlanInput } from './dto/create-plan.input'
 export class PlanRepository {
   constructor(
     @InjectModel(Plan.name)
-    private planModel: Model<PlanDocument>,
+    private planModel: Model<PlanDocument>
   ) {}
 
   async create(plan: CreatePlanInput) {
