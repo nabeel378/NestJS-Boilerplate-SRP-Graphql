@@ -3,7 +3,6 @@ import { Subscription } from './subscription.schema'
 import { SubscriptionService } from './subscription.service'
 import { FindSubscriptionDTO } from './dto/find-subscription.dto'
 import { CreateSubscriptionInput } from './dto/create-subscription.input'
-import { SubscribeOrgInput } from './dto/subscribe-org.input'
 import { SubscribePlanInput } from './dto/subscribe-plan.input'
 
 @Resolver()

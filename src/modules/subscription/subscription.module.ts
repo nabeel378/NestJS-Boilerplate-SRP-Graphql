@@ -1,4 +1,4 @@
-import { Logger, LoggerService, Module } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 import { SubscriptionResolver } from './subscription.resolver'
 import { SubscriptionService } from './subscription.service'
 import { MongooseModule } from '@nestjs/mongoose'
