@@ -98,10 +98,48 @@ export class SubscriptionService {
     }
   }
 
+  private async subscriptionForUser({
+    orgXId,
+    userXId,
+    planId
+  }: SubscribeOrgInput) {
+    try {
+      const plan = await this.planService.getActivePlan(planId)
+      const currentDate = this.dateHelper.getCurrentDate()
+      if (plan.type != PlanType.Reseller)
+        throw new ConflictException(
+          'This plan is available for the individual user.'
+        )
+      const isPlanSubscribed = await this.isPlanSubscribed({ orgXId, userXId })
+      if (isPlanSubscribed)
+        throw new ConflictException('Plan is already subscribed.')
+      const subscription = new Subscription()
+      Object.assign(subscription, {
+        userXId,
+        orgXId,
+        plan,
+        startDate: currentDate,
+        endDate: this.dateHelper.addDays(currentDate, plan.duration),
+        status: Status.Active,
+        type: SubscriptionType.Individual,
+        isAddOn: false
+      })
+      this.loggerService.log(
+        JSON.stringify(subscription),
+        'subscriptionForUser'
+      )
+      return await this.subscriptionRepository.create(subscription)
+    } catch (error) {
+      this.loggerService.error(error)
+      throw error
+    }
+  }
+
   async subscribePlan(subscribePlanInput: SubscribePlanInput) {
     if (subscribePlanInput.type == SubscriptionType.Business)
       return await this.subscriptionForOrg(subscribePlanInput)
-
+    else if (subscribePlanInput.type == SubscriptionType.Individual)
+      return await this.subscriptionForUser(subscribePlanInput)
     throw new NotFoundException("Subscription type doesn't exist.")
   }
   async create(subscriptionInput: CreateSubscriptionInput) {
