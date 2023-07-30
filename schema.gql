@@ -48,6 +48,7 @@ input FindSubscriptionDTO {
 type Mutation {
   createPlan(createPlanInput: CreatePlanInput!): Plan!
   createSubscription(input: CreateSubscriptionInput!): Subscription!
+  subscribePlan(subscribePlanInput: SubscribePlanInput!): Subscription!
 }
 
 type Plan {
@@ -93,6 +94,14 @@ type Query {
 enum Status {
   Active
   InActive
+}
+
+input SubscribePlanInput {
+  isAddon: Boolean! = false
+  orgXId: String!
+  planId: String!
+  type: SubscriptionType! = Individual
+  userXId: String!
 }
 
 type Subscription {

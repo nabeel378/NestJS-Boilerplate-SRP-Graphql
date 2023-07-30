@@ -1,7 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { SubscriptionType } from '../subscription.enum'
 
 @InputType()
-export class SubscribeOrgInput {
+export class SubscribePlanInput {
   @Field()
   planId: string
 
@@ -13,4 +14,7 @@ export class SubscribeOrgInput {
 
   @Field({ defaultValue: false })
   isAddon?: boolean
+
+  @Field(() => SubscriptionType, { defaultValue: SubscriptionType.Individual })
+  type: SubscriptionType
 }

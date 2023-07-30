@@ -38,7 +38,7 @@ export class SubscriptionRepository {
       .find({
         userXId,
         orgXId,
-        endDate: { $lte: date }
+        endDate: { $gte: date }
       })
       .exec()
   }

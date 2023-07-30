@@ -1,7 +1,10 @@
 import { Module, ValidationPipe } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default' //was 'apollo-server-core'
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault
+} from '@apollo/server/plugin/landingPage/default' //was 'apollo-server-core'
 import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 import { SubscriptionModule } from './modules/subscription/subscription.module'
@@ -22,7 +25,17 @@ import { APP_PIPE } from '@nestjs/core'
       sortSchema: true,
       driver: ApolloDriver,
       playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()]
+      plugins:
+        process.env.GRAPHQL_PLAYGROUND == 'true'
+          ? process.env.NODE_ENV === 'production'
+            ? [
+                ApolloServerPluginLandingPageProductionDefault({
+                  graphRef: 'my-graph-id@my-graph-variant',
+                  footer: false
+                })
+              ]
+            : [ApolloServerPluginLandingPageLocalDefault({ footer: false })]
+          : []
     }),
     SubscriptionModule,
     PlanModule

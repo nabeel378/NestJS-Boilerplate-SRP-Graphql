@@ -16,6 +16,7 @@ import { PlanType } from '../plan/plan.enum'
 import { DateHelper } from '../helper/date.service'
 import { SubscriptionType } from './subscription.enum'
 import { CustomLoggerService } from '../helper/custom-logger.service'
+import { SubscribePlanInput } from './dto/subscribe-plan.input'
 
 @Injectable()
 export class SubscriptionService {
@@ -27,7 +28,7 @@ export class SubscriptionService {
   ) {
     this.loggerService.setContext(SubscriptionService.name)
   }
-  async subscribedPlan({
+  private async getSubscribedPlan({
     userXId,
     orgXId
   }: {
@@ -48,7 +49,7 @@ export class SubscriptionService {
     return subscription
   }
 
-  async isPlanSubscribed({
+  private async isPlanSubscribed({
     userXId,
     orgXId
   }: {
@@ -62,10 +63,14 @@ export class SubscriptionService {
         orgXId,
         date: currentDate
       })
-    return subscription ? true : false
+    return subscription.length ? true : false
   }
 
-  async subscriptionForOrg({ orgXId, userXId, planId }: SubscribeOrgInput) {
+  private async subscriptionForOrg({
+    orgXId,
+    userXId,
+    planId
+  }: SubscribeOrgInput) {
     try {
       const plan = await this.planService.getActivePlan(planId)
       const currentDate = this.dateHelper.getCurrentDate()
@@ -87,8 +92,19 @@ export class SubscriptionService {
         type: SubscriptionType.Business,
         isAddOn: false
       })
+      this.loggerService.log(subscription, 'subscriptionForOrg')
       return await this.subscriptionRepository.create(subscription)
-    } catch (error) {}
+    } catch (error) {
+      this.loggerService.error(error)
+      throw error
+    }
+  }
+
+  async subscribePlan(subscribePlanInput: SubscribePlanInput) {
+    if (subscribePlanInput.type == SubscriptionType.Business)
+      return await this.subscriptionForOrg(subscribePlanInput)
+
+    throw new NotFoundException("Subscription type doesn't exist.")
   }
   async create(subscriptionInput: CreateSubscriptionInput) {
     const plan = await this.planService.findAll({
@@ -103,7 +119,6 @@ export class SubscriptionService {
   }
 
   async findAll(findSubscriptionDTO: FindSubscriptionDTO) {
-    this.loggerService.error('findSubscriptionDTO findSubscriptionDTO')
     return await this.subscriptionRepository.findAll(findSubscriptionDTO)
   }
 }
