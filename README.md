@@ -23,13 +23,13 @@
 <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
 [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-# Spark Service
+# Onyx Service
 
-This is a TypeScript starter repository for the "Spark" service, which handles the subscription and payment modules.
+This is a TypeScript starter repository for the "Onyx" service, which handles the Auth modules.
 
 ## Description
 
-The "Spark" service is responsible for handling the subscription and payment modules. It provides functionalities related to managing user subscriptions, processing payments, and ensuring a seamless user experience for subscription-based services.
+The "Onyx" service is responsible for handling Auth.
 
 ## Installation
 
