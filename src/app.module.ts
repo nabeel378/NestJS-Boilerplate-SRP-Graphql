@@ -4,22 +4,32 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault
-} from '@apollo/server/plugin/landingPage/default' //was 'apollo-server-core'
+} from '@apollo/server/plugin/landingPage/default'
 import { ConfigModule } from '@nestjs/config'
-import { MongooseModule } from '@nestjs/mongoose'
-import { SubscriptionModule } from './modules/subscription/subscription.module'
-import { PlanModule } from './modules/plan/plan.module'
 import { APP_PIPE } from '@nestjs/core'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { join } from 'path'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `src/core/environments/${process.env.NODE_ENV}.env`
     }),
-    MongooseModule.forRoot(
-      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}`,
-      { dbName: process.env.DB_NAME }
-    ),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: (process.env.DB_PORT as unknown as number) ?? 5432,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [join(__dirname, './**/**/*.entity{.ts,.js}')],
+      synchronize: (process.env.DB_SYNC as unknown as boolean) ?? false,
+      ssl: (process.env.DB_SSL as unknown as boolean) ?? false,
+      extra: {
+        ssl: { rejectUnauthorized: process.env.DB_REJECT_AUTHORIZED ?? true }
+      },
+      logging: (process.env.DB_LOGGING as unknown as boolean) ?? true
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       autoSchemaFile: 'schema.gql',
       sortSchema: true,
@@ -36,11 +46,8 @@ import { APP_PIPE } from '@nestjs/core'
               ]
             : [ApolloServerPluginLandingPageLocalDefault({ footer: false })]
           : []
-    }),
-    SubscriptionModule,
-    PlanModule
+    })
   ],
-  controllers: [],
   providers: [
     {
       provide: APP_PIPE,
