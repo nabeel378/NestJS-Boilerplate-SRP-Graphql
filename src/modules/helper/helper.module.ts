@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common'
 import { DateHelper } from './date.service'
-import { CustomLoggerService } from './custom-logger.service'
+import { UniversalLoggerService } from './universal-logger.service'
+import { ErrorMessageService } from './error-message.service'
 
 @Module({
   imports: [],
-  providers: [DateHelper, CustomLoggerService]
+  providers: [DateHelper, UniversalLoggerService, ErrorMessageService]
 })
 export class HelperModule {}

@@ -2,141 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreatePlanInput {
-  description: String
-  duration: Float!
-  fees: Float!
-  noOfDevices: Float
-  noOfUsers: Float
-  orgXId: String!
-  status: Status! = Active
-  title: String!
-  type: PlanType! = Owner
-  yearlyDiscount: Float
-}
-
-input CreateSubscriptionInput {
-  name: String
-  noOfDevices: Float!
-  noOfUsers: Float
-  orgXId: String!
-  planId: String!
-  status: Status! = Active
-  type: SubscriptionType! = Individual
-  userXId: String!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-input FindPlanInput {
-  _id: String
-  orgXId: String
-  status: Status
-  type: PlanType
-}
-
-input FindSubscriptionDTO {
-  orgXId: String
-  status: Status
-  type: String
-  userXid: String
+input CreateUserInput {
+  email: String!
+  password: String!
 }
 
 type Mutation {
-  createPlan(createPlanInput: CreatePlanInput!): Plan!
-  createSubscription(input: CreateSubscriptionInput!): Subscription!
-  subscribePlan(subscribePlanInput: SubscribePlanInput!): Subscription!
-}
-
-type Plan {
-  _id: String!
-  createdAt: DateTime!
-  description: String
-  duration: Float!
-  fees: Float!
-  noOfDevices: Float
-  noOfUsers: Float
-  orgXId: String!
-  status: String
-  title: String
-  type: String!
-  yearlyDiscount: Float
-}
-
-input PlanInput {
-  _id: String!
-  createdAt: DateTime!
-  description: String
-  duration: Float!
-  fees: Float!
-  noOfDevices: Float
-  noOfUsers: Float
-  orgXId: String!
-  status: String
-  title: String
-  type: String!
-  yearlyDiscount: Float
-}
-
-enum PlanType {
-  Owner
-  Reseller
+  createUser(createUserInput: CreateUserInput!): User!
+  removeUser(id: Int!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  plans(findPlanInput: FindPlanInput!): [Plan!]!
-  subscriptions(input: FindSubscriptionDTO!): [Subscription!]!
+  user: [User!]!
 }
 
-enum Status {
-  Active
-  InActive
+input UpdateUserInput {
+  email: String
+  id: Int!
+  password: String
 }
 
-input SubscribePlanInput {
-  isAddon: Boolean! = false
-  orgXId: String!
-  planId: String!
-  type: SubscriptionType! = Individual
-  userXId: String!
-}
-
-type Subscription {
-  endDate: DateTime
-  isAddon: Boolean!
-  name: String
-  noOfDevices: Float
-  noOfUsers: Float
-  orgXId: String
-  plan: Plan
-  startDate: DateTime
+type User {
+  email: String!
+  id: ID!
+  password: String!
   status: String
-  subscription: Subscription
-  type: SubscriptionType!
-  userXId: String
-  vehicleXId: [String!]
-}
-
-input SubscriptionInput {
-  endDate: DateTime
-  isAddon: Boolean! = false
-  name: String
-  noOfDevices: Float
-  noOfUsers: Float
-  orgXId: String
-  plan: PlanInput
-  startDate: DateTime
-  status: String
-  subscription: SubscriptionInput
-  type: SubscriptionType! = Individual
-  userXId: String
-  vehicleXId: [String!]
-}
-
-enum SubscriptionType {
-  Business
-  Individual
+  type: String
 }
