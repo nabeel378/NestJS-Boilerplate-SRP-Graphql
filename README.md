@@ -40,7 +40,7 @@ $ yarn install
 
 ```bash
 # development
-$ yarn run start
+$ yarn dev
 
 # watch mode
 $ yarn run start:dev
