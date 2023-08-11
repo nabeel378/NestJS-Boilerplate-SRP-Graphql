@@ -2,6 +2,9 @@ import { Field, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
 export class LoginOutput {
-  @Field({ nullable: true })
+  @Field()
+  id: string
+
+  @Field()
   accessToken: string
 }

@@ -4,7 +4,7 @@ import { User } from './user.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { FindAllUserArgs } from './dto/find-all-user.args'
-import { PaginationArgs } from '../../common/dto/pagination.args'
+import { UserOutput } from './dto/user.output'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -15,12 +15,12 @@ export class UserResolver {
     return this.userService.create(createUserInput)
   }
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => UserOutput, { name: 'user' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.userService.findOne({ id })
   }
 
-  @Query(() => [User], { name: 'users' })
+  @Query(() => [UserOutput], { name: 'users' })
   findAll(@Args() findAllUserArgs: FindAllUserArgs) {
     return this.userService.findAll(findAllUserArgs)
   }

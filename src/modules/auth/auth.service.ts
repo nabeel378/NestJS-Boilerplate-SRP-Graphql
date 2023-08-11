@@ -46,6 +46,6 @@ export class AuthService {
       throw new UnauthorizedException(
         this.errorMessageService.WRONG_EMAIL_OR_PASSWORD
       )
-    return { accessToken: await this.generateAccessToken(user) }
+    return { id: user.id, accessToken: await this.generateAccessToken(user) }
   }
 }
