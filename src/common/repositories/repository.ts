@@ -28,6 +28,10 @@ export class Repository<T extends Base> {
     return this.baseRepository.findOne({ where: { id } } as FindOneOptions<T>)
   }
 
+  one(params: Partial<T>): Promise<T | undefined> {
+    return this.baseRepository.findOne({ where: params } as FindOneOptions<T>)
+  }
+
   get(filter: Partial<T>): Promise<T | undefined> {
     return this.baseRepository.findOne({ where: filter } as FindOneOptions<T>)
   }

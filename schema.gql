@@ -7,8 +7,13 @@ input CreateUserInput {
   password: String!
 }
 
+type LoginOutput {
+  accessToken: String
+}
+
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
+  login(email: String, password: String): LoginOutput!
   removeUser(id: Int!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }

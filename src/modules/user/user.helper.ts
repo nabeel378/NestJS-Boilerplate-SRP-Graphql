@@ -8,23 +8,15 @@ import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { UserRepository } from './user.repository'
 import { ErrorMessageService } from '../helper/error-message.service'
-import { FindOneUserInput } from './dto/find-one-user.input'
-import { AuthorizationConfig } from '../../core/configurations/authorization_config'
-import * as bcrypt from 'bcrypt'
 
 @Injectable()
-export class UserService {
+export class UserHelper {
   constructor(
     private logger: UniversalLoggerService,
     private userRepository: UserRepository,
     private errorMessage: ErrorMessageService
   ) {
-    this.logger.setContext(UserService.name)
-  }
-
-  async generateHashPassword(password: string) {
-    return bcrypt.hash(password, AuthorizationConfig.saltOrRounds)
-  }
+   }
 
   async isEmailRegister(email: string): Promise<boolean> {
     return !!(await this.userRepository.count({
@@ -38,10 +30,6 @@ export class UserService {
       const isEmailRegister = await this.isEmailRegister(createUserInput.email)
       if (isEmailRegister)
         throw new ConflictException(this.errorMessage.EMAIL_ALREADY_REGISTERED)
-      const hashedPassword = await this.generateHashPassword(
-        createUserInput.password
-      )
-      Object.assign(createUserInput, { password: hashedPassword })
       return await this.userRepository.create(createUserInput)
     } catch (error) {
       this.logger.error({ message: error, api: 'create' })
@@ -53,14 +41,8 @@ export class UserService {
     return `This action returns all user`
   }
 
-  async findOne(findOneUserInput: FindOneUserInput) {
-    this.logger.log({ message: findOneUserInput, api: 'findOne' })
-    try {
-      return await this.userRepository.one(findOneUserInput)
-    } catch (error) {
-      this.logger.error({ message: error, api: 'findOne' })
-      throw new InternalServerErrorException(error)
-    }
+  findOne(id: number) {
+    return `This action returns a #${id} user`
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {
