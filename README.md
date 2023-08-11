@@ -23,13 +23,13 @@
 <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
 [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-# Onyx Service
+# Sage Service
 
-This is a TypeScript starter repository for the "Onyx" service, which handles the Auth modules.
+This is a TypeScript starter repository for the "Sage" service, which handles user management. This service will cover Users, Organizations, and Clients.
 
 ## Description
 
-The "Onyx" service is responsible for handling Auth.
+The "Sage" service is responsible for handling user management, including Users, Organizations, and Clients.
 
 ## Installation
 

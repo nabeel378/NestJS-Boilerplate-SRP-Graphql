@@ -9,8 +9,6 @@ import { ConfigModule } from '@nestjs/config'
 import { APP_PIPE } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { join } from 'path'
-import { UserModule } from './modules/user/user.module'
-import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -48,9 +46,7 @@ import { AuthModule } from './modules/auth/auth.module';
               ]
             : [ApolloServerPluginLandingPageLocalDefault({ footer: false })]
           : []
-    }),
-    UserModule,
-    AuthModule
+    })
   ],
   providers: [
     {
