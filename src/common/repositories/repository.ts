@@ -1,7 +1,9 @@
 import { InternalServerErrorException } from '@nestjs/common'
 import {
   DataSource,
+  FindManyOptions,
   FindOneOptions,
+  FindOptionsWhere,
   Repository as TypeormRepository,
   UpdateResult
 } from 'typeorm'
@@ -19,17 +21,26 @@ export class Repository<T extends Base> {
       dataSource.createEntityManager()
     )
   }
+  async all(
+    params: FindOptionsWhere<T>,
+    pagination?: { page: number; limit: number }
+  ): Promise<T[]> {
+    const findOptions: FindManyOptions<T> = {
+      where: params
+    }
 
-  all(params: Partial<T>): Promise<T[]> {
-    return this.baseRepository.find({ where: params } as FindOneOptions<T>)
+    if (pagination) {
+      const { page, limit } = pagination
+      const skip = (page - 1) * limit
+      findOptions.skip = skip
+      findOptions.take = limit
+    }
+
+    return this.baseRepository.find(findOptions)
   }
 
   forId(id: number): Promise<T | undefined> {
     return this.baseRepository.findOne({ where: { id } } as FindOneOptions<T>)
-  }
-
-  one(params: Partial<T>): Promise<T | undefined> {
-    return this.baseRepository.findOne({ where: params } as FindOneOptions<T>)
   }
 
   get(filter: Partial<T>): Promise<T | undefined> {
@@ -46,17 +57,23 @@ export class Repository<T extends Base> {
     return this.baseRepository.save(newEntity)
   }
 
+  /**
+   *
+   * @param id is for find the entity
+   * @param params is for update the entity
+   * @returns
+   */
   async update({
     id,
-    entity
+    params
   }: {
     id: number
-    entity: Partial<T>
+    params: Partial<T>
   }): Promise<boolean> {
     try {
       const updateResult: UpdateResult = await this.baseRepository.update(
         id,
-        entity
+        params
       )
       return updateResult.affected > 0
     } catch (error) {

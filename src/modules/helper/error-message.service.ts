@@ -7,4 +7,5 @@ export class ErrorMessageService {
   IP_ALREADY_EXIST = 'This IP address is already assigned within the system.'
   EMAIL_ALREADY_REGISTERED = `Email is already registered`
   WRONG_EMAIL_OR_PASSWORD = `The provided email or password does not match.`
+  USER_NOT_FOUND = `User not found.`
 }

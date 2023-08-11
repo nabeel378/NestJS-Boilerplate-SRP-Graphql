@@ -3,6 +3,7 @@ import { UserService } from './user.service'
 import { User } from './user.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
+import { FindAllUserArgs } from './dto/find-all-user.args'
 
 @Resolver(() => User)
 export class UserResolver {
@@ -18,18 +19,13 @@ export class UserResolver {
     return this.userService.findOne({ id })
   }
 
-  @Query(() => [User], { name: 'user' })
-  findAll() {
-    return this.userService.findAll()
+  @Query(() => [User], { name: 'users' })
+  findAll(@Args() findAllUserArgs: FindAllUserArgs) {
+    return this.userService.findAll(findAllUserArgs)
   }
 
   @Mutation(() => User)
   updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.userService.update(updateUserInput.id, updateUserInput)
-  }
-
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id)
   }
 }

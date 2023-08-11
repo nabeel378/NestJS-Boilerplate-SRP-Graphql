@@ -2,15 +2,17 @@ import { UniversalLoggerService } from '../helper/universal-logger.service'
 import {
   ConflictException,
   Injectable,
-  InternalServerErrorException
+  InternalServerErrorException,
+  NotFoundException
 } from '@nestjs/common'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { UserRepository } from './user.repository'
 import { ErrorMessageService } from '../helper/error-message.service'
-import { FindOneUserInput } from './dto/find-one-user.input'
+import { FindOneUserArgs } from './dto/find-one-user.args'
 import { AuthorizationConfig } from '../../core/configurations/authorization_config'
 import * as bcrypt from 'bcrypt'
+import { FindAllUserArgs } from './dto/find-all-user.args'
 
 @Injectable()
 export class UserService {
@@ -49,25 +51,35 @@ export class UserService {
     }
   }
 
-  async findAll() {
-    return `This action returns all user`
+  async findAll(findAllUserArgs: FindAllUserArgs) {
+    return await this.userRepository.all(findAllUserArgs)
   }
 
-  async findOne(findOneUserInput: FindOneUserInput) {
-    this.logger.log({ message: findOneUserInput, api: 'findOne' })
+  async findOne(findOneUserArgs: FindOneUserArgs) {
+    this.logger.log({ message: findOneUserArgs, api: 'findOne' })
     try {
-      return await this.userRepository.one(findOneUserInput)
+      return await this.userRepository.get(findOneUserArgs)
     } catch (error) {
       this.logger.error({ message: error, api: 'findOne' })
       throw new InternalServerErrorException(error)
     }
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`
-  }
+  async update(id: number, updateUserInput: UpdateUserInput) {
+    this.logger.log({ message: { updateUserInput, id }, api: 'update' })
+    try {
+      const user = await this.userRepository.get({ id })
+      if (!user) throw new NotFoundException(this.errorMessage.USER_NOT_FOUND)
 
-  remove(id: number) {
-    return `This action removes a #${id} user`
+      Object.assign(user, updateUserInput)
+      if (updateUserInput.password)
+        Object.assign(user, {
+          password: await this.generateHashPassword(updateUserInput.password)
+        })
+      return await this.userRepository.update({ id, params: updateUserInput })
+    } catch (error) {
+      this.logger.error({ message: error, api: 'findOne' })
+      throw error
+    }
   }
 }

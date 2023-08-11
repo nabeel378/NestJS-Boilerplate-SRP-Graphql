@@ -1,8 +1,8 @@
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql'
+import { InputType, Field, Int } from '@nestjs/graphql'
 import { IsOptional } from 'class-validator'
 
 @InputType()
-export class FindOneUserInput {
+export class FindOneUserArgs {
   @Field(() => Int, { nullable: true })
   @IsOptional()
   id?: number

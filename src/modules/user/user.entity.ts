@@ -6,7 +6,7 @@ import { Status } from 'src/common/enum/common.enum'
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class User {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id: number
