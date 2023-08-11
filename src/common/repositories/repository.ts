@@ -22,15 +22,15 @@ export class Repository<T extends Base> {
     )
   }
   async all(
-    params: FindOptionsWhere<T>,
-    pagination?: { page: number; limit: number }
+    params: FindOptionsWhere<T> & { page: number; limit: number }
   ): Promise<T[]> {
+    const { page, limit, ...filter } = params
+
     const findOptions: FindManyOptions<T> = {
-      where: params
+      where: filter as FindOptionsWhere<T>
     }
 
-    if (pagination) {
-      const { page, limit } = pagination
+    if (page && limit) {
       const skip = (page - 1) * limit
       findOptions.skip = skip
       findOptions.take = limit

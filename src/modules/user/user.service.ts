@@ -13,6 +13,7 @@ import { FindOneUserArgs } from './dto/find-one-user.args'
 import { AuthorizationConfig } from '../../core/configurations/authorization_config'
 import * as bcrypt from 'bcrypt'
 import { FindAllUserArgs } from './dto/find-all-user.args'
+import { PaginationArgs } from '../../common/dto/pagination.args'
 
 @Injectable()
 export class UserService {

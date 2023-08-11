@@ -4,6 +4,7 @@ import { User } from './user.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { FindAllUserArgs } from './dto/find-all-user.args'
+import { PaginationArgs } from '../../common/dto/pagination.args'
 
 @Resolver(() => User)
 export class UserResolver {
