@@ -1,8 +1,8 @@
 {
-  "name": "sage",
+  "name": "starter",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "M Nabeel",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

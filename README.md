@@ -23,14 +23,13 @@
 <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
 [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-# Sage Service
+# Starter Service
 
-This is a TypeScript starter repository for the "Sage" service, which handles user management. This service will cover Users, Organizations, and Clients.
+This is a TypeScript starter repository for the "Starter" service.
 
 ## Description
 
-The "Sage" service is responsible for handling user management, including Users, Organizations, and Clients.
-
+Demo Service
 ## Installation
 
 ````bash
